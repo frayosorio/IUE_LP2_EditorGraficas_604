@@ -41,9 +41,46 @@ public class EditorControlador {
     }
 
     private void clicRaton(MouseEvent evento) {
+        if (estado == Estado.NADA) {
+            x = evento.getX();
+            y = evento.getY();
+            estado = Estado.TRAZANDO;
+
+            System.out.println("primer clic en x=" + x + " y=" + y);
+        } else {
+            System.out.println("segundo clic en x=" + evento.getX() + " y=" + evento.getY());
+            var g = vista.getGraficadorPanel();
+            g.setColor(vista.getColorTrazoSeleccionado());
+            switch (vista.getTipoTrazoSeleccionado()) {
+                case LINEA:
+                    g.drawLine(x, y, evento.getX(), evento.getY());
+                    break;
+                case RECTANGULO:
+                    g.drawRect(x, y, Math.abs(evento.getX() - x), Math.abs(evento.getY() - y));
+                    break;
+                case OVALO:
+                    g.drawOval(x, y, Math.abs(evento.getX() - x), Math.abs(evento.getY() - y));
+            }
+            estado = Estado.NADA;
+        }
     }
 
     private void movimientoRaton(MouseEvent evento) {
+        if(estado==Estado.TRAZANDO){
+            DibujoServicio.limpiarLienzo(vista.getPnlGrafica());
+            var g = vista.getGraficadorPanel();
+            g.setColor(vista.getColorTrazoSeleccionado());
+            switch (vista.getTipoTrazoSeleccionado()) {
+                case LINEA:
+                    g.drawLine(x, y, evento.getX(), evento.getY());
+                    break;
+                case RECTANGULO:
+                    g.drawRect(x, y, Math.abs(evento.getX() - x), Math.abs(evento.getY() - y));
+                    break;
+                case OVALO:
+                    g.drawOval(x, y, Math.abs(evento.getX() - x), Math.abs(evento.getY() - y));
+            }
+        }
     }
 
 }
