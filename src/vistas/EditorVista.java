@@ -2,15 +2,7 @@ package vistas;
 
 import modelos.TipoTrazo;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
@@ -131,8 +123,8 @@ public class EditorVista extends JFrame {
         return color;
     }
 
-    public JPanel getPnlGrafica(){
-        return  pnlGrafica;
+    public JPanel getPnlGrafica() {
+        return pnlGrafica;
     }
 
     //setters
@@ -177,5 +169,12 @@ public class EditorVista extends JFrame {
 
     // metodos publicos
 
+    public boolean confirmar(String mensaje) {
+        return JOptionPane.showConfirmDialog(null, mensaje, "",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+    }
 
+    public void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
+    }
 }
