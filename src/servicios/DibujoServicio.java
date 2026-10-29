@@ -1,10 +1,11 @@
 package servicios;
 
-import modelos.Nodo;
-import modelos.TrazoDto;
+import com.fasterxml.jackson.core.type.TypeReference;
+import modelos.*;
 
 import java.awt.Graphics;
 import java.awt.Color;
+import java.util.List;
 
 public class DibujoServicio {
 
@@ -57,6 +58,34 @@ public class DibujoServicio {
             actual = actual.siguiente;
         }
         return ArchivoServicio.guardarJson(nombreArchivo, trazos);
+    }
+
+    public void cargarDesdeJSON(String nombreArchivo) {
+        cabeza = null;
+        var trazosDto = ArchivoServicio.leerJson(nombreArchivo, new TypeReference<List<TrazoDto>>() {
+        });
+
+        for (var trazoDto : trazosDto) {
+            Trazo trazo = null;
+            switch (TipoTrazo.valueOf(trazoDto.getTipo())) {
+                case LINEA:
+                    trazo = new Linea(trazoDto.getX1(), trazoDto.getY1(),
+                            trazoDto.getX2(), trazoDto.getY2());
+                    break;
+                case RECTANGULO:
+                    trazo = new Rectangulo(trazoDto.getX1(), trazoDto.getY1(),
+                            trazoDto.getX2(), trazoDto.getY2());
+                    break;
+                case OVALO:
+                    trazo = new Ovalo(trazoDto.getX1(), trazoDto.getY1(),
+                            trazoDto.getX2(), trazoDto.getY2());
+                    break;
+            }
+            if (trazo != null) {
+                agregar(new Nodo(trazo, new Color(trazoDto.getRed(),
+                        trazoDto.getGreen(), trazoDto.getBlue())));
+            }
+        }
     }
 
 

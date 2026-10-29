@@ -1,11 +1,13 @@
 package controladores;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import modelos.*;
 import servicios.ArchivoServicio;
 import servicios.DibujoServicio;
 import vistas.EditorVista;
 
 import java.awt.event.*;
+import java.util.List;
 
 public class EditorControlador {
 
@@ -43,6 +45,8 @@ public class EditorControlador {
         this.vista.setGuardarDibujo(evento -> {
             guardarDibujo();
         });
+
+        this.vista.setCargarDibujo(evento -> cargarDibujo());
     }
 
     private void iniciarLienzo() {
@@ -95,6 +99,14 @@ public class EditorControlador {
         if (!nombreArchivo.equals("")) {
             dibujo.guardarJSON(nombreArchivo);
             vista.mostrarMensaje("El archivo con el dibujo fue guardado");
+        }
+    }
+
+    private void cargarDibujo() {
+        nombreArchivo = ArchivoServicio.elegirArchivo(false);
+        if (!nombreArchivo.isEmpty()) {
+            dibujo.cargarDesdeJSON(nombreArchivo);
+            redibujar();
         }
     }
 

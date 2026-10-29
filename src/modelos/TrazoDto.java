@@ -16,6 +16,9 @@ public class TrazoDto {
         this.blue = blue;
     }
 
+    public TrazoDto() {
+    }
+
     public String getTipo() {
         return tipo;
     }
